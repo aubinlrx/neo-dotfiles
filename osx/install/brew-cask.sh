@@ -16,6 +16,7 @@ apps=(
   spotify
   slite
   telegram
+  visual-studio-code
 )
 
 echo "Installing Homebrew app..."
