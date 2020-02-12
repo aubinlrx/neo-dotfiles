@@ -21,3 +21,13 @@ apps=(
 
 echo "Installing Homebrew app..."
 brew cask install "${apps[@]}"
+
+brew tap koekeishiya/formulae
+
+apps=(
+  yabai
+  skhd
+)
+
+brew install "${apps[@]}"
+echo "Installing Homebrew formulae  app..."

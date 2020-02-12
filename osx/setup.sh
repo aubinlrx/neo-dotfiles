@@ -13,6 +13,7 @@ source install/zsh.sh
 source install/go.sh
 source install/ruby.sh
 source install/node.sh
+source install/rust.sh
 
 # Symlink everything
 source symlink.sh

@@ -44,6 +44,7 @@ packages=(
   gawk
   gnu-sed
   gnu-indent
+  vifm
 )
 
 echo "Installing brew packages..."
