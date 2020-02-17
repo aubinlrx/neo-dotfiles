@@ -6,19 +6,19 @@ echo "setting up osx..."
 source install/brew.sh
 source install/brew-cask.sh
 
-# Install zsh
-source install/zsh.sh
-
 # Install go, ruby, node
 source install/go.sh
 source install/ruby.sh
 source install/node.sh
 source install/rust.sh
 
+# Setup vim
+source install/vim.sh
+
 # Symlink everything
 source symlink.sh
 
-# Set custom osx defaults
-source .osx
+# Install zsh
+source install/zsh.sh
 
 echo "setup finished!"

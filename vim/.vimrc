@@ -1,22 +1,24 @@
-set nocompatible
-
 "============================================================
 " Plugins
 "============================================================
-if filereadable(expand("~/.vimrc.plug"))
-  source ~/.vimrc.plug
-endif
-
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set runtimepath^=~/.vim/bundle/vim-airline/plugin/airline.vim
+set runtimepath^=~/.vim/bundle/dracula
 
 "============================================================
 " aubinlrx settings
 "============================================================
 set omnifunc=syntaxcomplete#Complete
 set smartindent
+set t_Co=256
+set termguicolors
+let &t_ut=''
 syntax on 
-color dracula
+set background=dark
+let g:dracula_colorterm = 0
+let g:dracula_italic = 0
+color dracula 
+set colorcolumn=80
 filetype plugin indent on
 set shiftwidth=2 " number of spaces when shift indenting
 set tabstop=2 " number of visual spaces per tab
@@ -52,7 +54,10 @@ set laststatus=2 " for airline
 " Make `jj` and `jk` throw you into normal mode
 inoremap jj <esc>
 inoremap jk <esc>
-
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 " ctrl-p plugin shortcut
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'

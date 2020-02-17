@@ -33,6 +33,7 @@ packages=(
   diff-so-fancy
   tree
   grep
+  wget
   hub
   unrar
   jq

@@ -1,33 +1,24 @@
 #!/usr/bin/env bash
 
-brew tap caskroom/cask
-brew tap caskroom/fonts
-brew tap caskroom/versions
+brew tap homebrew/cask-cask 
+brew tap homebrew/cask-fonts
+brew tap homebrew/cask-versions
 
 apps=(
   vlc
   transmission
   slack
-  iterm2
-  firefox
   google-chrome
-  bitwarden
   figma
   spotify
   slite
   telegram
   visual-studio-code
+  iterm2
+  firefox
+  bitwarden
+  alacritty
 )
 
 echo "Installing Homebrew app..."
-brew cask install "${apps[@]}"
-
-brew tap koekeishiya/formulae
-
-apps=(
-  yabai
-  skhd
-)
-
-brew install "${apps[@]}"
-echo "Installing Homebrew formulae  app..."
+brew cask install "${apps[@]}" 
