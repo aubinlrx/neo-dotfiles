@@ -12,7 +12,7 @@ apps=(
   figma
   spotify
   slite
-  telegram
+  telegram-desktop
   visual-studio-code
   iterm2
   firefox
