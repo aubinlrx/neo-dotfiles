@@ -26,13 +26,14 @@ packages=(
   bash
   bash-completion
   brew-cask-completion
-  ctop
+  htop
   git
   fzf
   bat
   diff-so-fancy
   tree
   grep
+  mysql
   wget
   hub
   unrar
@@ -45,6 +46,7 @@ packages=(
   gawk
   gnu-sed
   gnu-indent
+  yarn
   vifm
 )
 
