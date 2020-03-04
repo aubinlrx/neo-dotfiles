@@ -21,3 +21,6 @@ ln -fs ${DOTFILES}/shell/.dircolors ${HOME}/.dircolors
 
 # htop
 ln -fs ${DOTFILES}/osx/.htoprc ${HOME}/.config/htop/htoprc
+
+# ssh
+ln -fs ${DOTFILES}/ssh/config ${HOME}/.ssh/config
