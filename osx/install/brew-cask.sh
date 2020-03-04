@@ -8,6 +8,7 @@ apps=(
   vlc
   transmission
   slack
+  calibre
   google-chrome
   figma
   spotify
