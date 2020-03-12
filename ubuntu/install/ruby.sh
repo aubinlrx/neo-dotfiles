@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 echo "Installing ruby..."
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev
-git clone https://github.com/tpope/rbenv-aliases.git ~/.rbenv/plugins/rbenv-aliases
-rbenv alias --auto
-rbenv install 2.6.2
+
+gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+curl -sSL https://get.rvm.io -o rvm.sh
+cat /tmp/rvm.sh | bash -s stable --rails
+source $HOME/.rvm/scripts/rvm
+
+rvm install ruby-2.6.3
+rvm use ruby-2.6.3

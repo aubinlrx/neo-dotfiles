@@ -5,6 +5,7 @@ sudo -v
 
 # add hub PPA
 sudo add-apt-repository ppa:cpick/hub
+sudo add-apt-repository ppa:git-core/ppa
 
 sudo apt-update
 sudo apt-upgrade
@@ -26,11 +27,11 @@ packages=(
   software-properties-common
   tree
   unrar
+  gnupg2
+  fonts-powerline
   vim
 )
 
 echo "installing packages..."
 sudo apt install "${packages[@]}"
 sudo apt autoremove
-
-  

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 apps=(
-  chromium
   slack --classic
   vlc
   transmission --beta --jailmode
