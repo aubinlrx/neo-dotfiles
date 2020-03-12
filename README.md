@@ -18,8 +18,8 @@
 ```
 mkdir git/aubinlrx
 cd git/aubinlrx
-git clone https://github.com/aubinlrx/dotfiles.git
-cd dotfiles/osx
+git clone https://github.com/aubinlrx/neo-dotfiles.git
+cd neo-dotfiles/osx
 . ./setup.sh
 ```
 
@@ -29,8 +29,8 @@ cd dotfiles/osx
 sudo apt install git
 mkdir git/aubinlrx
 cd git/aubinlrx
-git clone https://github.com/aubinlrx/dotfiles.git
-cd dotfiles/ubuntu
+git clone https://github.com/aubinlrx/neo-dotfiles.git
+cd neo-dotfiles/ubuntu
 . ./setup.sh
 ```
 
