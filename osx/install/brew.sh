@@ -33,7 +33,8 @@ packages=(
   diff-so-fancy
   tree
   grep
-  mysql
+  mysql@5.7
+  postgresql
   wget
   hub
   unrar
