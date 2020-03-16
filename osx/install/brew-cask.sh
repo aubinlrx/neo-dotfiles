@@ -3,6 +3,7 @@
 brew tap homebrew/cask-cask 
 brew tap homebrew/cask-fonts
 brew tap homebrew/cask-versions
+brew tap heroku/brew
 
 apps=(
   vlc
@@ -19,6 +20,7 @@ apps=(
   firefox
   bitwarden
   alacritty
+  heroku
 )
 
 echo "Installing Homebrew app..."
