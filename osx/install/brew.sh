@@ -32,7 +32,7 @@ packages=(
   bat
   diff-so-fancy
   tree
-  grep
+  ripgrep
   mysql@5.7
   postgresql
   wget
