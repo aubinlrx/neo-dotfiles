@@ -34,10 +34,14 @@ set clipboard^=unnamed "shared clipboard with OS
 let g:ctrlp_working_path_mode = 'r'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/* " lol
 let g:ctrlp_show_hidden=1
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " autoquit if only nerdtree is open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " autoquit if only nerdtre/ is open
 set noswapfile
-autocmd FileType javascript JsPreTmpl html
+autocmd FileType javascript JsPreTmpl
+autocmd FileType javascript.jsx JsPreTmpl
 let g:jsx_ext_required = 0
+
+" NERDTree
+let NERDTreeShowHidden=1
 
 " airline
 let g:airline#extensions#tabline#enabled = 0 

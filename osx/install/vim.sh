@@ -1,4 +1,4 @@
-#!usr/bin/env bash
+#!/usr/bin/env bash
 
 echo "vim setup started..."
 
@@ -27,6 +27,7 @@ PLUGINS=(
   "posva/vim-vue"
   "Quramy/vim-js-pretty-template"
   "altercation/vim-colors-solarized"
+  "google/vim-searchindex"
   "matze/vim-move"
   "fatih/vim-go"
   "sheerun/vim-polyglot"
