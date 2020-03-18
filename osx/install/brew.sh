@@ -40,6 +40,7 @@ packages=(
   unrar
   jq
   vim
+  neovim
   markdown
   openssh
   openssl

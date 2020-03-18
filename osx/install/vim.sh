@@ -50,4 +50,10 @@ done
 
 cp $PLUGIN_DIR/vim-pathogen/autoload/pathogen.vim $AUTOLOAD_DIR/pathogen.vim
 
+# Neovim
+echo "symlink neovim"
+mkdir -p ${HOME}/.config
+ln -s ${HOME}/.vim ${HOME}/.config/nvim
+ln -s ${HOME}/.vimrc ${HOME}/.config/nvim/vim.init
+
 echo "vim setup done"
