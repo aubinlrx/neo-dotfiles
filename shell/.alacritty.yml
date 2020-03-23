@@ -3,10 +3,10 @@ window:
   startup_mode: Maximized
 
   padding:
-    x: 10 
+    x: 10
     y: 10
 
-  decorations: buttonless 
+  decorations: buttonless
 
 # Colors (Dracula)
 colors:
@@ -38,17 +38,17 @@ colors:
     white:   '0xe6e6e6'
 
 font:
-  size: 16.0
-  
-  normal: 
-    family: Monaco 
-    style: Regular 
-    
-  bold: 
-    family: Monaco 
-    style: Bold 
-    
-  italic: 
-    family: Monaco 
-    style: Italic 
-    
+  size: 18.0
+
+  normal:
+    family: Monaco
+    style: Regular
+
+  bold:
+    family: Monaco
+    style: Bold
+
+  italic:
+    family: Monaco
+    style: Italic
+
