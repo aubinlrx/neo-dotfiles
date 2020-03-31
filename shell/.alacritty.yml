@@ -3,8 +3,8 @@ window:
   startup_mode: Maximized
 
   padding:
-    x: 10
-    y: 10
+    x: 5
+    y: 5
 
   decorations: buttonless
 
@@ -41,14 +41,14 @@ font:
   size: 18.0
 
   normal:
-    family: Monaco
+    family: 'JetBrains Mono'
     style: Regular
 
   bold:
-    family: Monaco
+    family: 'JetBrains Mono'
     style: Bold
 
   italic:
-    family: Monaco
+    family: 'JetBrains Mono'
     style: Italic
 
