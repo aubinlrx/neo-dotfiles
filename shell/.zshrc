@@ -23,7 +23,7 @@ source "${ZSH}/oh-my-zsh.sh"
 # type -a rbenv > /dev/null && eval "$(rbenv init -)"
 
 # Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Load kiex if installed
 test -s "${HOME}/.kiex/scripts/kiex" && source "${HOME}/.kiex/scripts/kiex"
@@ -39,7 +39,7 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 
 # [OSX] add Qt binary to PATH
 # https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit#macos-high-sierra-1013-macos-sierra-1012-el-capitan-1011-and-yosemite-1010
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+# export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
 
 # [OSX] https://blog.francium.tech/installing-rmagick-on-osx-high-sierra-7ea71f57390d
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
@@ -47,7 +47,7 @@ export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 # [OSX] 5.7 from brew
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 
-# add golang into the PATH 
+# add golang into the PATH
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin
@@ -67,6 +67,15 @@ set -g default-terminal "screen-256color"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+# Ripgrep config
+if type rg &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --ignore-vcs -g "!{node_modules,.git}"'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$HOME/.rvm/gems/ruby-2.6.2@winddle-rails5/bin:$PATH"
+
+# Winddle specific env variable
+WINDDLE_APP_PATH="$HOME/git/winddle/winddle"
