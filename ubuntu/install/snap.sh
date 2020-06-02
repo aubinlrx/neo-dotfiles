@@ -9,3 +9,4 @@ apps=(
 
 echo "installing snap packages..."
 sudo snap install "${apps[@]}"
+echo "done"

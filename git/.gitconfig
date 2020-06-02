@@ -1,11 +1,16 @@
-
 [user]
-	name = Aubin Lorieux 
-	email = aubin.lorieux@gmail.com 
+	name = Aubin Lorieux
+	email = aubin.lorieux@winddle.com
 
 [status]
 	# also show individual files in untracked directories
 	showUntrackedFiles = all
+
+[push]
+    default = simple
+
+[pull]
+    rebase = false
 
 [color "branch"]
 	current = yellow reverse

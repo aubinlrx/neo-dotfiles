@@ -6,8 +6,6 @@ window:
     x: 10
     y: 10
 
-  decorations: buttonless
-
 # Colors (Dracula)
 colors:
   # Default colors
@@ -38,17 +36,17 @@ colors:
     white:   '0xe6e6e6'
 
 font:
-  size: 18.0
+  size: 14.0
 
   normal:
-    family: Monaco
+    family: "monospace"
     style: Regular
 
   bold:
-    family: Monaco
+    family: "monospace"
     style: Bold
 
   italic:
-    family: Monaco
+    family: "monospace"
     style: Italic
 
