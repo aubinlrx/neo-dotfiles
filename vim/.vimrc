@@ -188,7 +188,7 @@ autocmd FileType javascript.jsx JsPreTmpl
 set noswapfile
 
 " Use zsh
-set shell=/usr/local/bin/zsh
+set shell=/usr//bin/zsh
 
 " Fzf
 map <leader>pf :Files<CR>

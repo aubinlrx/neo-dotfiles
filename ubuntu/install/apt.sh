@@ -7,6 +7,10 @@ sudo add-apt-repository ppa:mmstick76/alacritty
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo add-apt-repository ppa:x4121/ripgrep
 
+# Spotify client source
+curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+
 sudo apt update
 sudo apt upgrade
 
@@ -32,6 +36,7 @@ packages=(
   feh
   ripgrep
   alacritty
+  spotify-client
 )
 
 echo "installing packages..."

@@ -46,7 +46,7 @@ exec --no-startup-id start-pulseaudio-x1
 exec --no-startup-id dropbox start
 
 # Key repeat/delay
-exec --no-startup-id xset r rate 185 100
+exec --no-startup-id xset r rate 190 50
 # 185 -  delay
 # 100 - interval
 
@@ -172,7 +172,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 # Assign window behavior
 # ===============================
 
-assign [class="Slack|Google Hangouts|Signal"] $ws3
+assign [class="Slack|Google Hangouts|Signal|Telegram"] $ws3
 
 # Assign floating windows.
 for_window [class="feh|mpv"] floating enable

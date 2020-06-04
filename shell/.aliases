@@ -1,6 +1,8 @@
 alias ws='./bin/webpack-dev-server'
 alias cdp='cd ~/git/aubinlrx/'
 alias cdw='cd ~/git/winddle/'
+alias cdww='cd ~/git/winddle/winddle'
+alias cdwp='cd ~/git/winddle/winddle-peeps'
 alias 'ryarn'='rm -rf ./node_modules && yarn install'
 alias rdb='bundle exec rake db:drop && bundle exec rake db:setup && bundle exec rake db:migrate'
 alias rspec='bundle exec rspec'
