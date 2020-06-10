@@ -23,6 +23,7 @@ ln -fs ${DOTFILES}/shell/.dircolors ${HOME}/.dircolors
 # i3
 ln -fs ${DOTFILES}/i3/config ${HOME}/.config/i3/config
 ln -fs ${DOTFILES}/i3/status.conf ${HOME}/.config/i3/status.conf
+ln -fs ${DOTFILES}/i3/status.toml ${HOME}/.config/i3/status.toml
 ln -fs ${DOTFILES}/i3/compton.conf ${HOME}/.config/compton.conf
 
 # Wallpapers
