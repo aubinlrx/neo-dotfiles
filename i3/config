@@ -31,7 +31,7 @@ font pango:monospace $fontsize
 # font, it doesn’t scale on retina/hidpi displays.
 
 # Handle screen order
-exec --no-startup-id xrandr --output HDMI-2 --right-of HDMI-1 --auto
+exec --no-startup-id xrandr --output DP-1 --right-of HDMI-1 --auto
 
 # load compton fix firefox screen tearing: https://askubuntu.com/questions/751149/screen-tearing-when-using-i3-none-when-using-unity
 exec --no-startup-id compton --config ~/.config/compton.conf -b
@@ -61,6 +61,7 @@ bindsym $mod+q kill
 
 # start rofi (a program launcher)
 bindsym $mod+d exec rofi -combi-modi window#run -show combi -modi combi
+bindsym $mod+space exec rofi -combi-modi window#run -show combi -modi combi
 # bindsym $mod+d exec dmenu_run
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -113,7 +114,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -123,13 +124,21 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
+
+# fa-terminal
+set $ws1 "1:&#xf120;"
+# fa-code
+set $ws2 "2:&#xf121;"
+# fa-slack
+set $ws3 "3:&#xf198;"
+# fa-spotify
+set $ws4 "4:&#xf1bc;"
+# fa-code
+set $ws5 "5:"
+# fa-chrome
+set $ws6 "6:&#xf268;"
+# fa-firefox
+set $ws7 "7:&#xf269;"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
@@ -140,11 +149,11 @@ workspace $ws2 output HDMI-1
 workspace $ws3 output HDMI-1
 workspace $ws4 output HDMI-1
 workspace $ws5 output HDMI-1
-workspace $ws6 output HDMI-2
-workspace $ws7 output HDMI-2
-workspace $ws8 output HDMI-2
-workspace $ws9 output HDMI-2
-workspace $ws10 output HDMI-2
+workspace $ws6 output DP-1
+workspace $ws7 output DP-1
+workspace $ws8 output DP-1
+workspace $ws9 output DP-1
+workspace $ws10 output DP-1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -222,7 +231,7 @@ mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
 # Taking screenshots
 # ====================
 # Fullscreen
-bindsym Print exec "scrot -q 100 ${HOME}'/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'xclip $f -selection clipboard -t image/png -i $f'"
+bindsym Print exec "flameshot gui"
 # Screenshot with selection
 bindsym Shift+Print exec "sleep 0.4; scrot -q 100 -s ${HOME}'/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'xclip $f -selection clipboard -t image/png -i $f'"
 
