@@ -6,6 +6,7 @@ sudo add-apt-repository ppa:git-core/ppa
 sudo add-apt-repository ppa:mmstick76/alacritty
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo add-apt-repository ppa:x4121/ripgrep
+sudo add-apt-repository ppa:peek-developers/stable
 
 # Spotify client source
 curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
@@ -42,6 +43,8 @@ packages=(
   powerline
   fonts-powerline
   libdbus-1
+  peek
+  flameshot
 )
 
 echo "installing packages..."
