@@ -41,6 +41,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go'
 " -- Vue
 Plug 'posva/vim-vue'
+" -- Prettier
+Plug 'prettier/vim-prettier'
 " -- Jsx
 Plug 'neoclide/vim-jsx-improve'
 Plug 'Quramy/vim-js-pretty-template'
@@ -239,6 +241,15 @@ command! -nargs=1 -complete=file Open call OpenToLine(<f-args>)
 command! -nargs=1 -complete=file O call OpenToLine(<f-args>)
 nnoremap <leader>po :Open<Space>
 
+" ------------------------------------------------------------------------------
+" vim-prettier
+" ------------------------------------------------------------------------------
+let g:prettier#exec_cmd_async = 1
+let g:prettier#config#semi = 'false'
+let g:prettier#config#trailing_comma = 'none'
+let g:prettier#config#arrow_parens = 'always'
+
+autocmd BufWritePre *winddle/*.js,*winddle/*.vue,*winddle/*.scss PrettierAsync
 
 "============================================================
 " Mappings
