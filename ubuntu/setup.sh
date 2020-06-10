@@ -9,10 +9,11 @@ source install/snap.sh
 # Install zsh
 source install/zsh
 
-# INstall go, ruby, node
+# Install go, ruby, node, rust
 source install/go.sh
 source install/ruby.sh
 source install/node.sh
+source install/rust.sh
 
 # Synlink everything
 source symlink.sh

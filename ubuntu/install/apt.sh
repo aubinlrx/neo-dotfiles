@@ -37,6 +37,11 @@ packages=(
   ripgrep
   alacritty
   spotify-client
+  rofi
+  fonts-font-awesome
+  powerline
+  fonts-powerline
+  libdbus-1
 )
 
 echo "installing packages..."
