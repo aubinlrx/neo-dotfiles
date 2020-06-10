@@ -300,6 +300,7 @@ function! FilenameCopy()
 
     let @@ = l:filename
     let @* = l:filename
+    let @+ = l:filename
     redraw
 
     echom 'Filename path: `' . l:filename . ':' . l:line . '` copied!'
@@ -325,6 +326,7 @@ function! YamlCopy()
 
     let @@ = res
     let @* = res
+    let @+ = res
     redraw
 
     echom 'Yaml path: `' . l:res . '` copied! ('.l:line.':'.l:col.')'
