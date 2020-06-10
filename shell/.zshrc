@@ -16,10 +16,16 @@ export TERM="xterm-256color"
 # Actually load Oh-My-Zsh
 source "${ZSH}/oh-my-zsh.sh"
 
+# Add ~/bin to PATH
+export PATH=$PATH:$HOME/bin
+
 # Load golang into the PATH
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/go/bin
+
+# Load rust into the PATH
+export PATH=$PATH:$HOME/.cargo/bin
 
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
