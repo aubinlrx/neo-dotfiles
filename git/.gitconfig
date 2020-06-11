@@ -1,7 +1,10 @@
 
 [user]
-	name = Aubin Lorieux 
-	email = aubin.lorieux@gmail.com 
+	name = Aubin Lorieux
+	email = aubin.lorieux@gmail.com
+
+[includeIf "gitdir:~/git/winddle/"]
+    path = ~/git/winddle/.gitconfig
 
 [status]
 	# also show individual files in untracked directories
@@ -26,6 +29,24 @@
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	autocrlf = input
 
+[alias]
+    # list contributors with number of commits
+	contributors = shortlog --summary --numbered
+
+	# add stats summary to diffs
+	df = diff --patch-with-stat# list contributors with number of commits
+
+    # prettier git log
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+    # prettier git log with stats
+    lg-stat = "! git log --pretty=tformat:\"%C(auto,yellow)%h%C(auto)%d%C(auto,reset) by %C(auto,blue)%cn%C(auto,reset), %C(auto,cyan)%ar%C(auto,reset)%n %s\" --stat"
+
+    # quick easy wip
+    wip = "!f() { git commit -m "wip" . && git push origin HEAD; }; f"
+
+    # remove all branches except master
+    rm-branches = "!f() { git branch | grep -E -v -w 'master|dev' | xargs git branch -D; }; f"
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 
