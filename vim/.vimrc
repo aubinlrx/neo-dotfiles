@@ -293,9 +293,32 @@ command! YAMLNav call fzf#run({
 
 nnoremap <leader>yf <Esc>:YAMLNav<CR>
 
+" FilenameCopy
+function! FilenameCopy()
+    let filename = expand("%")
+    let line = line('.')
+
+    let @@ = l:filename
+    let @* = l:filename
+    redraw
+
+    echom 'Filename path: `' . l:filename . ':' . l:line . '` copied!'
+endfunction
+command! -nargs=0 FilenameCopy call FilenameCopy()
+nnoremap <leader>fy <ESC>:FilenameCopy<CR>
+
 " YAMLCopy
-function! YamlCopy(...)
-    let col = col('.')
+function! YamlCopy()
+    let initial_col = col('.')
+    let col = l:initial_col
+
+    execute 'normal! ^'
+    let start_col = col(".")
+    if col < start_col
+        let col = l:start_col
+    endif
+    execute 'normal! ' . l:initial_col . '|'
+
     let line = line('.')
     let filename = expand('%:p')
     let res = systemlist('yaml-path get ' . l:filename . ' -c ' . l:col . ' -l ' . l:line)[0]
@@ -307,7 +330,7 @@ function! YamlCopy(...)
     echom 'Yaml path: `' . l:res . '` copied! ('.l:line.':'.l:col.')'
 endfunction
 
-command! -nargs=? YAMLCopy call YamlCopy(<args>)
+command! -nargs=0 YAMLCopy call YamlCopy()
 nnoremap <leader>yy <ESC>:YAMLCopy<CR>
 
 " Close empty buffer
@@ -345,17 +368,41 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Get directory from file
+function GetDirectory(filename)
+    return join(split(a:filename, '/')[0:-2], '/')
+endfunction
+
 " Rename file
 function! RenameFile()
     let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
+    let new_name = input('Rename: ', expand('%'), 'file')
     if new_name != '' && new_name != old_name
+        let directory = GetDirectory(new_name)
+        call mkdir(directory, "p")
+
         exec ':saveas ' . new_name
         exec ':silent !rm ' . old_name
         redraw!
     endif
 endfunction
-map <leader>n :call RenameFile()<cr>
+map <leader>r :call RenameFile()<cr>
+
+" Edit file with directory creation
+function! EditFile()
+    let current_file = expand('%')
+    let current_directory = join(split(current_file, '/')[0:-2], '/') . '/'
+    let file_name = input('Create: ', current_directory, 'file')
+    if file_name != ''
+        let directory = GetDirectory(file_name)
+        call mkdir(directory, "p")
+
+        exec ':e ' . file_name
+        exec ':w'
+        redraw!
+    endif
+endfunction
+map <Leader>e :call EditFile()<cr>
 
 " Print full path
 map <C-f> :echo expand("%:p")<cr>
