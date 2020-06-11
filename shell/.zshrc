@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 
 # Load zsh identities with ssh-agent plugins
-zstyle ':omz:plugins:ssh-agent' identities 'id_rsa' 'winddle_rsa'
+zstyle ':omz:plugins:ssh-agent' identities 'aubinlrx_rsa' 'id_rsa'
 
 # Useful plugins for Rails development with Sublime Text
 plugins=(git ssh-agent history-substring-search zsh-syntax-highlighting)
@@ -77,5 +77,27 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.rvm/gems/ruby-2.6.2@winddle-rails5/bin:$PATH"
 
+# Add pip to PATH for Ansible
+export PATH="$PATH:$HOME/Library/Python/2.7/bin"
+
 # Winddle specific env variable
 WINDDLE_APP_PATH="$HOME/git/winddle/winddle"
+
+# Eternal history
+# taken from https://unix.stackexchange.com/questions/273861/unlimited-history-in-zsh
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.

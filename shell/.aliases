@@ -1,6 +1,8 @@
+# alias vim='nvim'
 alias ws='./bin/webpack-dev-server'
 alias cdp='cd ~/git/aubinlrx/'
 alias cdw='cd ~/git/winddle/'
+alias cdg='cd ~/go/src/github.com/aubinlrx/'
 alias 'ryarn'='rm -rf ./node_modules && yarn install'
 alias rdb='bundle exec rake db:drop && bundle exec rake db:setup && bundle exec rake db:migrate'
 alias rspec='bundle exec rspec'
@@ -11,3 +13,12 @@ alias rzsh='source ~/.zshrc'
 alias stt='sublime'
 alias sskello='tmuxinator skello'
 alias jira_branch='open https://skello.atlassian.net/projects/DEV/issues/$(git branch | grep \* | cut -d '\'' '\'' -f2)'
+
+alias fzfi='rg --files --hidden --follow --ignore-vcs -g "!{node_modules,.git}" | fzf'
+alias vifi='vim $(fzfi)'
+alias vim='nvim'
+alias vf='vifm'
+
+# Gh aliases
+alias pp='gh pr list --label="Pending Review"'
+alias pv='gh pr view -w'
