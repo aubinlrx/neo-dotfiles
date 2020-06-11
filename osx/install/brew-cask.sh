@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-brew tap homebrew/cask-cask 
+brew tap homebrew/cask-cask
 brew tap homebrew/cask-fonts
 brew tap homebrew/cask-versions
+brew tap homebrew/cask-fonts
 brew tap heroku/brew
 
 apps=(
@@ -21,7 +22,9 @@ apps=(
   bitwarden
   alacritty
   heroku
+  sequel-pro
+  font-hack-nerd-font
 )
 
 echo "Installing Homebrew app..."
-brew cask install "${apps[@]}" 
+brew cask install "${apps[@]}"
