@@ -204,6 +204,7 @@ nnoremap <leader><leader> @:
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " autoquit if only nerdtre/ is open
 let NERDTreeShowHidden=1
 map <leader>pt :NERDTreeToggle<CR>
+map <Leader>t :NERDTreeFind<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 0
