@@ -20,4 +20,17 @@ packages=(
 echo "installing winddle packages..."
 sudo apt install "${packages[@]}"
 sudo apt autoremove
+
+echo "installing libpng12..."
+CURRENT_DIRECTORY=$(pwd)
+cd "/tmp"
+wget http://archive.ubuntu.com/ubuntu/pool/main/libp/libpng/libpng_1.2.54.orig.tar.xz
+tar xvf  libpng_1.2.54.orig.tar.xz
+cd libpng-1.2.54
+./autogen.sh
+./configure
+make -j8
+sudo make install
+cd $CURRENT_DIRECTORY
+
 echo "done"
