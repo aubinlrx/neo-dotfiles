@@ -45,6 +45,7 @@ packages=(
   libdbus-1
   peek
   flameshot
+  zathura
 )
 
 echo "installing packages..."
