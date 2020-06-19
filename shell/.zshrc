@@ -6,6 +6,7 @@ ZSH_THEME="robbyrussell"
 
 # Load zsh identities with ssh-agent plugins
 zstyle ':omz:plugins:ssh-agent' identities 'id_rsa' 'aubinlrx_rsa'
+zstyle ':omz:plugins:ssh-agent' identities 'winddle_infra.pem' 'winddle_internal.pem' 'winddle_web_ubuntu.pem'
 
 # Useful plugins for Rails development with Sublime Text
 plugins=(git ssh-agent history-substring-search zsh-syntax-highlighting)
