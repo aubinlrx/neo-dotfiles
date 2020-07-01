@@ -39,6 +39,8 @@ Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 " -- Go
 Plug 'fatih/vim-go'
+" -- Rust
+Plug 'rust-lang/rust.vim'
 " -- Vue
 Plug 'posva/vim-vue'
 " -- Jsx
@@ -50,6 +52,8 @@ Plug 'isRuslan/vim-es6'
 Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
 " Comppletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Visual increment
+Plug 'triglav/vim-visual-increment'
 call plug#end()
 
 "============================================================
