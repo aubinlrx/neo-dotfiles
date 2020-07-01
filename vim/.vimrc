@@ -417,6 +417,11 @@ function! EditFile()
 endfunction
 map <Leader>e :call EditFile()<cr>
 
+" Is current file a spec
+function! InSpecFile()
+    return match(expand('%'), "_spec.rb$") != 1
+endfunction
+
 " Determine Spec File
 function! SpecFile()
     let ext = expand('%:e')
@@ -425,8 +430,7 @@ function! SpecFile()
         return ''
     endif
 
-    let filename = expand('%:t')
-    if l:filename =~ '/^.*_spec\.rb$/'
+    if InSpecFile()
         return expand('%')
     endif
 
