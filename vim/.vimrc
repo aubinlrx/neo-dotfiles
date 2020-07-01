@@ -190,7 +190,7 @@ autocmd FileType javascript.jsx JsPreTmpl
 set noswapfile
 
 " Use zsh
-set shell=/usr//bin/zsh
+set shell=/usr/bin/zsh
 
 " Fzf
 map <leader>pf :Files<CR>
@@ -381,17 +381,104 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Get directory from file
+function GetDirectory(filename)
+    return join(split(a:filename, '/')[0:-2], '/')
+endfunction
+
 " Rename file
 function! RenameFile()
     let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
+    let new_name = input('Rename: ', expand('%'), 'file')
     if new_name != '' && new_name != old_name
+        let directory = GetDirectory(new_name)
+        call mkdir(directory, "p")
+
         exec ':saveas ' . new_name
         exec ':silent !rm ' . old_name
         redraw!
     endif
 endfunction
-map <leader>n :call RenameFile()<cr>
+map <leader>r :call RenameFile()<cr>
+
+" Edit file with directory creation
+function! EditFile()
+    let current_file = expand('%')
+    let current_directory = join(split(current_file, '/')[0:-2], '/') . '/'
+    let file_name = input('Create: ', current_directory, 'file')
+    if file_name != ''
+        let directory = GetDirectory(file_name)
+        call mkdir(directory, "p")
+
+        exec ':e ' . file_name
+        exec ':w'
+        redraw!
+    endif
+endfunction
+map <Leader>e :call EditFile()<cr>
+
+" Determine Spec File
+function! SpecFile()
+    let ext = expand('%:e')
+
+    if l:ext != 'rb'
+        return ''
+    endif
+
+    let filename = expand('%:t')
+    if l:filename =~ '/^.*_spec\.rb$/'
+        return expand('%')
+    endif
+
+    let filename_wo_ext = expand('%:r')
+    if l:filename_wo_ext =~? '^app\/.*'
+        let spec = substitute(l:filename_wo_ext, 'app/', 'spec/', '') . '_spec.rb'
+    elseif l:filename_wo_ext =~? '^scripts\/.*'
+        let spec = 'spec/' . filename_wo_ext . '_spec.rb'
+    else
+        return ''
+    endif
+
+    if filereadable(l:spec)
+        return l:spec
+    else
+        return ''
+    end
+endfunction
+
+" Open spec file
+function! OpenSpec()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+        return
+    endif
+
+    let spec = SpecFile()
+
+    if l:spec == ''
+        echom "Can't open spec file for " . expand('%')
+    else
+        exec ':e ' . l:spec
+    endif
+endfunction
+command! -nargs=0 OpenSpec call OpenSpec()
+
+" Run spec
+function! Rspec()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+        return
+    endif
+
+    let spec = SpecFile()
+
+    if l:spec == ''
+        echom "Can't determine spec for " . expand('%')
+    else
+       exec ':!rspec ' . l:spec
+    endif
+endfunction
+command! -nargs=0 Rspec call Rspec()
 
 " Print full path
 map <C-f> :echo expand("%:p")<cr>
