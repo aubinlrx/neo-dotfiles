@@ -34,6 +34,8 @@ Plug 'morhetz/gruvbox'
 Plug 'Yggdroot/indentLine'
 " Manage surround char
 Plug 'tpope/vim-surround'
+" Run async command
+Plug 'tpope/vim-dispatch'
 " Synthax
 " -- All
 Plug 'sheerun/vim-polyglot'
@@ -419,7 +421,7 @@ map <Leader>e :call EditFile()<cr>
 
 " Is current file a spec
 function! InSpecFile()
-    return match(expand('%'), "_spec.rb$") != 1
+    return match(expand('%'), "_spec.rb$") != -1
 endfunction
 
 " Determine Spec File
@@ -447,7 +449,38 @@ function! SpecFile()
         return l:spec
     else
         return ''
-    end
+    endif
+endfunction
+
+" Determine File from Spec
+function! FileFromSpec()
+    let ext = expand('%:e')
+
+    if l:ext != 'rb'
+        return ''
+    endif
+
+    if !InSpecFile()
+        return ''
+    endif
+
+    let file = expand('%')
+    if l:file =~? '^spec\/scripts\/.*'
+        let file = substitute(l:file, 'spec/scripts/', 'scripts/', '')
+        let file = substitute(l:file, '_spec.rb', '.rb', '')
+    elseif l:file =~? '^spec\/.*'
+        let file = substitute(l:file, 'spec/', 'app/', '')
+        echom l:file
+        let file = substitute(l:file, '_spec.rb', '.rb', '')
+    else
+        return ''
+    endif
+
+    if filereadable(l:file)
+        return l:file
+    else
+        return ''
+    endif
 endfunction
 
 " Open spec file
@@ -467,6 +500,23 @@ function! OpenSpec()
 endfunction
 command! -nargs=0 OpenSpec call OpenSpec()
 
+" Open file from spec
+function! OpenFile()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+        return
+    endif
+
+    let file = FileFromSpec()
+
+    if l:file == ''
+        echom "Can't open file from spec " . expand('%')
+    else
+        exec ':e ' . l:file
+    endif
+endfunction
+command! -nargs=0 OpenFile call OpenFile()
+
 " Run spec
 function! Rspec()
     if expand('%:e') != 'rb'
@@ -479,7 +529,7 @@ function! Rspec()
     if l:spec == ''
         echom "Can't determine spec for " . expand('%')
     else
-       exec ':!rspec ' . l:spec
+       exec ':Dispatch rspec ' . l:spec
     endif
 endfunction
 command! -nargs=0 Rspec call Rspec()
