@@ -6,8 +6,8 @@ echo "setting up ubuntu..."
 source install/apt.sh
 source install/snap.sh
 
-# Install zsh
-source install/zsh
+# Install fish
+source install/fish
 
 # Install go, ruby, node, rust
 source install/go.sh

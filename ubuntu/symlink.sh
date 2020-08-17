@@ -4,8 +4,10 @@ echo "creating symlink..."
 
 DOTFILES="${HOME}/git/aubinlrx/neo-dotfiles"
 
-ln -fs ${DOTFILES}/shell/.zshrc ${HOME}/.zshrc
-ln -fs ${DOTFILES}/shell/.aliases ${HOME}/.aliases
+# fish
+ln -fs ${DOTFILES}/shell/fish/config.fish ${HOME}/.config/fish/config.fish
+ln -fs ${DOTFILES}/shell/fish/dracula.fish ${HOME}/.config/fish/conf.d/dracula.fish
+ln -fs ${DOTFILES}/shell/fish/ssh-agent.fish ${HOME}/.config/fish/conf.d/ssh-agent.fish
 
 # git
 ln -fs ${DOTFILES}/git/.gitconfig ${HOME}/.gitconfig
