@@ -192,7 +192,7 @@ autocmd FileType javascript.jsx JsPreTmpl
 set noswapfile
 
 " Use zsh
-set shell=/usr/bin/zsh
+set shell=/usr/bin/fish
 
 " Fzf
 map <leader>pf :Files<CR>
@@ -251,7 +251,9 @@ let g:prettier#config#semi = 'false'
 let g:prettier#config#trailing_comma = 'none'
 let g:prettier#config#arrow_parens = 'always'
 
-autocmd BufWritePre *winddle/*.js,*winddle/*.vue,*winddle/*.scss PrettierAsync
+" *winddle/*.yml, *winddle/*.scss
+autocmd BufWritePre *winddle/*.js,*winddle/*.vue PrettierAsync
+nmap <Leader>pxxxx <Plug>(Prettier)
 
 "============================================================
 " Mappings
@@ -310,13 +312,14 @@ nnoremap <leader>yf <Esc>:YAMLNav<CR>
 function! FilenameCopy()
     let filename = expand("%")
     let line = line('.')
+    let fullname = l:filename . ':' . l:line
 
-    let @@ = l:filename
-    let @* = l:filename
-    let @+ = l:filename
+    let @@ = l:fullname
+    let @* = l:fullname
+    let @+ = l:fullname
     redraw
 
-    echom 'Filename path: `' . l:filename . ':' . l:line . '` copied!'
+    echom 'Filename path: `' . l:fullname . '` copied!'
 endfunction
 command! -nargs=0 FilenameCopy call FilenameCopy()
 nnoremap <leader>fy <ESC>:FilenameCopy<CR>
@@ -403,29 +406,35 @@ function! RenameFile()
 endfunction
 map <leader>r :call RenameFile()<cr>
 
-" Edit file with directory creation
-function! EditFile()
-    let current_file = expand('%')
-    let current_directory = join(split(current_file, '/')[0:-2], '/') . '/'
-    let file_name = input('Create: ', current_directory, 'file')
-    if file_name != ''
-        let directory = GetDirectory(file_name)
+" Edif file with directory creation
+function! EditFile(file_name)
+    if a:file_name != ''
+        let directory = GetDirectory(a:file_name)
         call mkdir(directory, "p")
 
-        exec ':e ' . file_name
+        exec ':e ' . a:file_name
         exec ':w'
         redraw!
     endif
 endfunction
-map <Leader>e :call EditFile()<cr>
+
+" Edit file with directory creation
+function! EditFileFromCurrent()
+    let current_file = expand('%')
+    let current_directory = join(split(current_file, '/')[0:-2], '/') . '/'
+    let file_name = input('Create: ', current_directory, 'file')
+
+    return EditFile(l:file_name)
+endfunction
+map <Leader>e :call EditFileFromCurrent()<cr>
 
 " Is current file a spec
 function! InSpecFile()
     return match(expand('%'), "_spec.rb$") != -1
 endfunction
 
-" Determine Spec File
-function! SpecFile()
+" Build Spec filename
+function! SpecFilename()
     let ext = expand('%:e')
 
     if l:ext != 'rb'
@@ -438,12 +447,17 @@ function! SpecFile()
 
     let filename_wo_ext = expand('%:r')
     if l:filename_wo_ext =~? '^app\/.*'
-        let spec = substitute(l:filename_wo_ext, 'app/', 'spec/', '') . '_spec.rb'
+        return substitute(l:filename_wo_ext, 'app/', 'spec/', '') . '_spec.rb'
     elseif l:filename_wo_ext =~? '^scripts\/.*'
-        let spec = 'spec/' . filename_wo_ext . '_spec.rb'
+        return 'spec/' . filename_wo_ext . '_spec.rb'
     else
         return ''
     endif
+endfunction
+
+" Determine Spec File
+function! SpecFile()
+    let spec = SpecFilename()
 
     if filereadable(l:spec)
         return l:spec
@@ -499,6 +513,22 @@ function! OpenSpec()
     endif
 endfunction
 command! -nargs=0 OpenSpec call OpenSpec()
+
+" Edit spec file
+function! EditSpec()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+    endif
+
+    let filename = SpecFilename()
+
+    if filereadable(l:filename)
+        return OpenSpec()
+    else
+        return EditFile(l:filename)
+    endif
+endfunction
+command! -nargs=0 EditSpec call EditSpec()
 
 " Open file from spec
 function! OpenFile()
