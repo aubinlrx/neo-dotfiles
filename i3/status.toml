@@ -35,6 +35,11 @@ ip = false
 interval = 5
 
 [[block]]
+block = "keyboard_layout"
+driver = "setxkbmap"
+interval = 15
+
+[[block]]
 block = "sound"
 
 [[block]]
