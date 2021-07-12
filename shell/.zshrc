@@ -60,6 +60,14 @@ export NVM_DIR="$HOME/.nvm"
 # Store your own aliases in the ~/.aliases file and load the here.
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
+function wops () {
+  CURRENT_PATH=$(pwd)
+
+  cd ~/git/winddle/winddle-ops
+  ./bin/wops $@
+  cd $CURRENT_PATH
+}
+
 # Tmux config
 set -g default-terminal "screen-256color"
 
@@ -101,3 +109,8 @@ setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history 
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval `ssh-agent -s`
+fi
+

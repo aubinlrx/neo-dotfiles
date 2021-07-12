@@ -1,8 +1,8 @@
 set nocompatible " Make vim more usefull
 
 " ================ Plug ==============================
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
 endif
@@ -34,15 +34,21 @@ Plug 'morhetz/gruvbox'
 Plug 'Yggdroot/indentLine'
 " Manage surround char
 Plug 'tpope/vim-surround'
+" Run async command
+Plug 'tpope/vim-dispatch'
 " Synthax
 " -- All
 Plug 'sheerun/vim-polyglot'
 " -- Go
 Plug 'fatih/vim-go'
-" -- Rust
-Plug 'rust-lang/rust.vim'
 " -- Vue
 Plug 'posva/vim-vue'
+" -- Rust
+Plug 'rust-lang/rust.vim'
+" -- Prettier
+Plug 'prettier/vim-prettier'
+" -- Share code snippet
+Plug 'kristijanhusak/vim-carbon-now-sh'
 " -- Jsx
 Plug 'neoclide/vim-jsx-improve'
 Plug 'Quramy/vim-js-pretty-template'
@@ -52,8 +58,6 @@ Plug 'isRuslan/vim-es6'
 Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
 " Comppletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Visual increment
-Plug 'triglav/vim-visual-increment'
 call plug#end()
 
 "============================================================
@@ -208,7 +212,6 @@ nnoremap <leader><leader> @:
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " autoquit if only nerdtre/ is open
 let NERDTreeShowHidden=1
 map <leader>pt :NERDTreeToggle<CR>
-map <Leader>t :NERDTreeFind<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 0
@@ -244,6 +247,22 @@ command! -nargs=1 -complete=file Open call OpenToLine(<f-args>)
 command! -nargs=1 -complete=file O call OpenToLine(<f-args>)
 nnoremap <leader>po :Open<Space>
 
+" ------------------------------------------------------------------------------
+" Rust
+" ------------------------------------------------------------------------------
+let g:rustfmt_autosave = 1
+
+" ------------------------------------------------------------------------------
+" vim-prettier
+" ------------------------------------------------------------------------------
+let g:prettier#exec_cmd_async = 1
+let g:prettier#config#semi = 'false'
+let g:prettier#config#trailing_comma = 'none'
+let g:prettier#config#arrow_parens = 'always'
+
+" *winddle/*.yml, *winddle/*.scss
+autocmd BufWritePre *winddle/*.js,*winddle/*.vue PrettierAsync
+nmap <Leader>pxxxx <Plug>(Prettier)
 
 "============================================================
 " Mappings
@@ -298,16 +317,32 @@ command! YAMLNav call fzf#run({
 
 nnoremap <leader>yf <Esc>:YAMLNav<CR>
 
+" OpenDir
+function! OpenDir(...)
+    if a:0 != 0
+        let workingdir = getcwd()
+        let directory = l:workingdir . '/' . a:1
+    else
+        let directory = expand('%:p:h')
+    endif
+
+    execute '!open ' . l:directory
+    redraw
+endfunction
+command! -complete=file_in_path -nargs=? OpenDir call OpenDir(<f-args>)
+
 " FilenameCopy
 function! FilenameCopy()
     let filename = expand("%")
     let line = line('.')
+    let fullname = l:filename . ':' . l:line
 
-    let @@ = l:filename
-    let @* = l:filename
+    let @@ = l:fullname
+    let @* = l:fullname
+    let @+ = l:fullname
     redraw
 
-    echom 'Filename path: `' . l:filename . ':' . l:line . '` copied!'
+    echom 'Filename path: `' . l:fullname . '` copied!'
 endfunction
 command! -nargs=0 FilenameCopy call FilenameCopy()
 nnoremap <leader>fy <ESC>:FilenameCopy<CR>
@@ -330,6 +365,7 @@ function! YamlCopy()
 
     let @@ = res
     let @* = res
+    let @+ = res
     redraw
 
     echom 'Yaml path: `' . l:res . '` copied! ('.l:line.':'.l:col.')'
@@ -393,21 +429,199 @@ function! RenameFile()
 endfunction
 map <leader>r :call RenameFile()<cr>
 
-" Edit file with directory creation
-function! EditFile()
-    let current_file = expand('%')
-    let current_directory = join(split(current_file, '/')[0:-2], '/') . '/'
-    let file_name = input('Create: ', current_directory, 'file')
-    if file_name != ''
-        let directory = GetDirectory(file_name)
+" Edif file with directory creation
+function! EditFile(file_name)
+    if a:file_name != ''
+        let directory = GetDirectory(a:file_name)
         call mkdir(directory, "p")
 
-        exec ':e ' . file_name
+        exec ':e ' . a:file_name
         exec ':w'
         redraw!
     endif
 endfunction
-map <Leader>e :call EditFile()<cr>
+
+" Edit file with directory creation
+function! EditFileFromCurrent()
+    let current_file = expand('%')
+    let current_directory = join(split(current_file, '/')[0:-2], '/') . '/'
+    let file_name = input('Create: ', current_directory, 'file')
+
+    return EditFile(l:file_name)
+endfunction
+map <Leader>e :call EditFileFromCurrent()<cr>
+
+" Is current file a spec
+function! InSpecFile()
+    return match(expand('%'), "_spec.rb$") != -1
+endfunction
+
+" Build Spec filename
+function! SpecFilename()
+    let ext = expand('%:e')
+
+    if l:ext != 'rb'
+        return ''
+    endif
+
+    if InSpecFile()
+        return expand('%')
+    endif
+
+    let filename_wo_ext = expand('%:r')
+    if l:filename_wo_ext =~? '^app\/.*'
+        return substitute(l:filename_wo_ext, 'app/', 'spec/', '') . '_spec.rb'
+    elseif l:filename_wo_ext =~? '^scripts\/.*'
+        return 'spec/' . filename_wo_ext . '_spec.rb'
+    else
+        return ''
+    endif
+endfunction
+
+" Determine Spec File
+function! SpecFile()
+    let spec = SpecFilename()
+
+    if filereadable(l:spec)
+        return l:spec
+    else
+        return ''
+    endif
+endfunction
+
+" Determine File from Spec
+function! FileFromSpec()
+    let ext = expand('%:e')
+
+    if l:ext != 'rb'
+        return ''
+    endif
+
+    if !InSpecFile()
+        return ''
+    endif
+
+    let file = expand('%')
+    if l:file =~? '^spec\/.*'
+        let file = substitute(l:file, 'spec/', 'app/', '')
+        echom l:file
+        let file = substitute(l:file, '_spec.rb', '.rb', '')
+    else
+        return ''
+    endif
+
+    if filereadable(l:file)
+        return l:file
+    else
+        return ''
+    endif
+endfunction
+
+" Open spec file
+function! OpenSpec()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+        return
+    endif
+
+    let spec = SpecFile()
+
+    if l:spec == ''
+        echom "Can't open spec file for " . expand('%')
+    else
+        exec ':e ' . l:spec
+    endif
+endfunction
+command! -nargs=0 OpenSpec call OpenSpec()
+
+" Edit spec file
+function! EditSpec()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+    endif
+
+    let filename = SpecFilename()
+
+    if filereadable(l:filename)
+        return OpenSpec()
+    else
+        return EditFile(l:filename)
+    endif
+endfunction
+command! -nargs=0 EditSpec call EditSpec()
+
+" Open file from spec
+function! OpenFile()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+        return
+    endif
+
+    let file = FileFromSpec()
+
+    if l:file == ''
+        echom "Can't open file from spec " . expand('%')
+    else
+        exec ':e ' . l:file
+    endif
+endfunction
+command! -nargs=0 OpenFile call OpenFile()
+
+" Run spec
+function! Rspec()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby file.'
+        return
+    endif
+
+    let spec = SpecFile()
+
+    if l:spec == ''
+        echom "Can't determine spec for " . expand('%')
+    else
+       exec ':Start! /Applications/Alacritty.app/Contents/MacOS/alacritty --hold --working-directory $(pwd) -e bundle exec spring rspec ' . l:spec
+    endif
+endfunction
+command! -nargs=0 Rspec call Rspec()
+
+" Run spec for specific line
+function! Lspec()
+    let file = expand('%')
+    if l:file !~ '.*_spec.rb'
+        echom expand('%') . ' is not a ruby spec file.'
+        return
+    endif
+
+    let spec = SpecFile()
+    let line = line('.')
+
+    if l:spec == ''
+        echom "Can't determine spec for " . expand('%')
+    else
+       exec ':Start! /Applications/Alacritty.app/Contents/MacOS/alacritty --hold --working-directory $(pwd) -e bundle exec spring rspec ' . l:spec . ':' . l:line
+    endif
+endfunction
+command! -nargs=0 Lspec call Lspec()
+
+" Run feature spec
+function! Fspec()
+    if expand('%:e') != 'rb'
+        echom expand('%') . ' is not a ruby spec file.'
+        return
+    endif
+
+    let spec = SpecFile()
+
+    if l:spec == ''
+        echom "Can't determine spec for " . expand('%')
+        return
+    elseif l:spec =~? '^spec\/features\/.*'
+        exec ':Dispatch SEED=disabled DRIVER=chrome RSPEC_RETRY_RETRY_COUNT=0 bundlex exec spring rspec ' . l:spec
+    else
+        echom l:spec . ' is not a features spec'
+    endif
+endfunction
+command! -nargs=0 Fspec call Fspec()
 
 " Print full path
-map <C-f> :echo expand("%:p")<cr>
+map <C-f> :echo expand("%:p")<cr>set nocompatible " Make vim more usefull
