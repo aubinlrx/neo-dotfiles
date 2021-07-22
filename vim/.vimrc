@@ -17,8 +17,8 @@ Plug 'tpope/vim-fugitive' " :G git command
 " Plug 'junegunn/gv.vim' " :GV git visual
 Plug 'airblade/vim-gitgutter'
 " Status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 " Nerdtree
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -28,8 +28,9 @@ Plug 'google/vim-searchindex' " display common search result
 " Linters
 Plug 'dense-analysis/ale'
 " Colorscheme
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'morhetz/gruvbox'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'Mofiqul/dracula.nvim', { 'branch': 'main' }
+" Plug 'dracula/vim', { 'as': 'dracula' }
 " Diplay tab with vertical lines
 Plug 'Yggdroot/indentLine'
 " Manage surround char
@@ -37,18 +38,22 @@ Plug 'tpope/vim-surround'
 " Run async command
 Plug 'tpope/vim-dispatch'
 " Synthax
-" -- All
-Plug 'sheerun/vim-polyglot'
-" -- Go
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
+" " -- Go
 Plug 'fatih/vim-go'
-" -- Vue
+" " -- Vue
 Plug 'posva/vim-vue'
 " -- Rust
 Plug 'rust-lang/rust.vim'
+" -- Coffee
+Plug 'kchmck/vim-coffee-script'
+" -- EJS / JST
+Plug 'briancollins/vim-jst'
 " -- Prettier
 Plug 'prettier/vim-prettier'
-" -- Share code snippet
-Plug 'kristijanhusak/vim-carbon-now-sh'
+" " -- Share code snippet
+" Plug 'kristijanhusak/vim-carbon-now-sh'
 " -- Jsx
 Plug 'neoclide/vim-jsx-improve'
 Plug 'Quramy/vim-js-pretty-template'
@@ -59,6 +64,22 @@ Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
 " Comppletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
+
+" treesitter enable
+if (has("nvim"))
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed ={ "javascript", "json", "css", "html", "python", "bash", "regex", "ruby", "yaml", "jsonc", "tsx", "lua", "vue", "rust", "go" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,
+    disable = { "php" },  -- list of language that will be disabled
+  },
+  indent = {
+    enable = false
+  },
+}
+EOF
+endif
 
 "============================================================
 " aubinlrx settings
@@ -103,9 +124,10 @@ set updatetime=300
 
 " Colorscheme
 set background=dark
-let g:dracula_colorterm = 0
-let g:dracula_italic = 0
-color dracula "gruvbox
+" let g:dracula_colorterm = 0
+" let g:dracula_italic = 0
+let $BAT_THEME='tokyo-night'
+color tokyonight "dracula gruvbox
 
 " Auto-index
 filetype indent off
@@ -121,10 +143,6 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set backspace=indent,eol,start
-
-"Custom Filetype
-autocmd BufNewFile,BufRead *.ejs set filetype=ejs
-autocmd BufNewFile,BufRead *._ejs set filetype=ejs
 
 " 2 spaces for ruby/web
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
@@ -151,14 +169,11 @@ set number "relativenumber
 "set cursorline
 
 " Improve performance
-set lazyredraw
-set ttyfast
+" set lazyredraw
+" set ttyfast
 
 " Highlight matching [{()}]
 set noshowmatch
-
-" We show the mode with airline or lightline
-set noshowmode
 
 " Search case insensitive...
 set ignorecase
@@ -199,6 +214,7 @@ set noswapfile
 set shell=/usr/local/bin/zsh
 
 " Fzf
+let g:fzf_files_options = '--keep-right'
 map <leader>pf :Files<CR>
 map <leader>pb :Buffers<CR>
 
@@ -213,14 +229,30 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let NERDTreeShowHidden=1
 map <leader>pt :NERDTreeToggle<CR>
 
-" Airline
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#branch#enabled = 1
-let g:airline_left_sep = ' ❤ '
-let g:airline_right_sep = ' 🟆  '
-let g:airline_section_warning = ''
-let g:airline_section_y = ''
-let g:airline_section_x = ''
+" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'tokyonight',
+      \ }
+
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_infos': 'lightline#ale#infos',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+
+let g:lightline.component_type = {
+      \     'linter_checking': 'right',
+      \     'linter_infos': 'right',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'right',
+      \ }
+
+let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ]] }
+
+set noshowmode
 set laststatus=2 " for airline
 
 " -----------------------------------------------------------------------------
@@ -284,9 +316,6 @@ map <leader>fl <Esc>:bnext<CR>
 
 " Close all buffer
 map <leader>bq <Esc>:bufdo bd<CR>
-
-" List all buffers with fzf
-map <leader>bf :Buffers<CR>
 
 " YAMLNav
 function! s:yaml_nav_command()
@@ -388,6 +417,9 @@ set splitright
 " switch to left / right split (mostly for Nerd Tree)
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+" Solargraph
+let g:coc_global_extensions = ['coc-solargraph']
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)

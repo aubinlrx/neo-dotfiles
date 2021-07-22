@@ -29,6 +29,7 @@ alias pg_stop="launchctl unload ~/Library/LaunchAgents"
 alias fzfi='rg --files --hidden --follow --ignore-vcs -g "!{node_modules,.git}" | fzf'
 alias vifi='vim $(fzfi)'
 alias vim='nvim'
+alias vi='nvim'
 alias vf='vifm'
 alias la='ls -la'
 

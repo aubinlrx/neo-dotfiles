@@ -3,6 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 # You can change the theme with another one:
 #   https://github.com/robbyrussell/oh-my-zsh/wiki/themes
 ZSH_THEME="robbyrussell"
+BAT_THEME="tokyo-night"
 
 # Load zsh identities with ssh-agent plugins
 zstyle ':omz:plugins:ssh-agent' identities 'aubinlrx_rsa' 'id_rsa' 'winddle_infra.pem' 'winddle_internal.pem' 'winddle_web_ubuntu.pem'
@@ -12,7 +13,7 @@ plugins=(git ssh-agent history-substring-search zsh-syntax-highlighting)
 
 # Prevent Homebrew from reporting - https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Analytics.md
 export HOMEBREW_NO_ANALYTICS=1
-export EDITOR="vim"
+export EDITOR="nvim"
 export TERM="xterm-256color"
 
 # Actually load Oh-My-Zsh
@@ -84,6 +85,7 @@ fi
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.rvm/gems/ruby-2.6.2@winddle-rails5/bin:$PATH"
+export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 
 # Add pip to PATH for Ansible
 export PATH="$PATH:$HOME/Library/Python/2.7/bin"
