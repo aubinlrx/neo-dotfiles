@@ -14,7 +14,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Git integration
 Plug 'tpope/vim-fugitive' " :G git command
-" Plug 'junegunn/gv.vim' " :GV git visual
+Plug 'junegunn/gv.vim' " :GV git visual
 Plug 'airblade/vim-gitgutter'
 " Status bar
 Plug 'itchyny/lightline.vim'
@@ -29,8 +29,6 @@ Plug 'google/vim-searchindex' " display common search result
 Plug 'dense-analysis/ale'
 " Colorscheme
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'Mofiqul/dracula.nvim', { 'branch': 'main' }
-" Plug 'dracula/vim', { 'as': 'dracula' }
 " Diplay tab with vertical lines
 Plug 'Yggdroot/indentLine'
 " Manage surround char
@@ -51,9 +49,7 @@ Plug 'kchmck/vim-coffee-script'
 " -- EJS / JST
 Plug 'briancollins/vim-jst'
 " -- Prettier
-Plug 'prettier/vim-prettier'
-" " -- Share code snippet
-" Plug 'kristijanhusak/vim-carbon-now-sh'
+Plug 'mhartington/formatter.nvim'
 " -- Jsx
 Plug 'neoclide/vim-jsx-improve'
 Plug 'Quramy/vim-js-pretty-template'
@@ -69,7 +65,8 @@ call plug#end()
 if (has("nvim"))
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed ={ "javascript", "json", "css", "html", "python", "bash", "regex", "ruby", "yaml", "jsonc", "tsx", "lua", "vue", "rust", "go" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed ={ "javascript", "json", "css", "html", "python", "bash", "regex", "ruby", "yaml", "jsonc", "tsx", "lua", "vue", "rust", "go" },
   highlight = {
     enable = true,
     disable = { "php" },  -- list of language that will be disabled
@@ -124,10 +121,8 @@ set updatetime=300
 
 " Colorscheme
 set background=dark
-" let g:dracula_colorterm = 0
-" let g:dracula_italic = 0
 let $BAT_THEME='tokyo-night'
-color tokyonight "dracula gruvbox
+color tokyonight
 
 " Auto-index
 filetype indent off
@@ -169,8 +164,8 @@ set number "relativenumber
 "set cursorline
 
 " Improve performance
-" set lazyredraw
-" set ttyfast
+set lazyredraw
+set ttyfast
 
 " Highlight matching [{()}]
 set noshowmatch
@@ -279,22 +274,52 @@ command! -nargs=1 -complete=file Open call OpenToLine(<f-args>)
 command! -nargs=1 -complete=file O call OpenToLine(<f-args>)
 nnoremap <leader>po :Open<Space>
 
-" ------------------------------------------------------------------------------
-" Rust
-" ------------------------------------------------------------------------------
-let g:rustfmt_autosave = 1
+if (has('nvim'))
+lua <<EOF
+require('formatter').setup({
+    logging = false,
+    filetype = {
+        vue = {
+            -- prettier
+            function()
+                return {
+                    exe = "prettier",
+                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+                }
+            end
+        },
+        javascript = {
+            -- prettier
+            function()
+              return {
+                exe = "prettier",
+                args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+                stdin = true
+              }
+            end
+        },
+        rust = {
+          -- Rustfmt
+          function()
+            return {
+              exe = "rustfmt",
+              args = {"--emit=stdout"},
+              stdin = true
+            }
+          end
+        },
+    }
+})
 
-" ------------------------------------------------------------------------------
-" vim-prettier
-" ------------------------------------------------------------------------------
-let g:prettier#exec_cmd_async = 1
-let g:prettier#config#semi = 'false'
-let g:prettier#config#trailing_comma = 'none'
-let g:prettier#config#arrow_parens = 'always'
-
-" *winddle/*.yml, *winddle/*.scss
-autocmd BufWritePre *winddle/*.js,*winddle/*.vue PrettierAsync
-nmap <Leader>pxxxx <Plug>(Prettier)
+vim.api.nvim_exec([[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost *.js,*.vue,*.rs FormatWrite
+augroup END
+]], true)
+EOF
+endif
 
 "============================================================
 " Mappings
