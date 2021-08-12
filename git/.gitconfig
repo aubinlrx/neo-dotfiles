@@ -53,3 +53,5 @@
 
 [http]
 	sslverify = false
+[pull]
+	rebase = false

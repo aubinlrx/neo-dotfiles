@@ -20,8 +20,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 " Nerdtree
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
 " Search
 Plug 'mhinz/vim-grepper' " :Grepper search globally in project
 Plug 'google/vim-searchindex' " display common search result
@@ -219,10 +219,10 @@ nnoremap <leader>s :Rg<Space>
 " Repeat last command
 nnoremap <leader><leader> @:
 
-" NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " autoquit if only nerdtre/ is open
-let NERDTreeShowHidden=1
-map <leader>pt :NERDTreeToggle<CR>
+" NvimTree
+nnoremap <leader>pt :NvimTreeFindFile<CR>
+nnoremap <leader>pr :NvimTreeRefresh<CR>
+nnoremap <leader>pq :NvimTreeClose<CR>
 
 " Lightline
 let g:lightline = {
