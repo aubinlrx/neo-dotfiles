@@ -38,8 +38,6 @@ Plug 'tpope/vim-dispatch'
 " Synthax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
-" " -- Go
-Plug 'fatih/vim-go'
 " " -- Vue
 Plug 'posva/vim-vue'
 " -- Rust
@@ -48,6 +46,8 @@ Plug 'rust-lang/rust.vim'
 Plug 'kchmck/vim-coffee-script'
 " -- EJS / JST
 Plug 'briancollins/vim-jst'
+" -- Terraform HCL
+Plug 'hashivim/vim-terraform'
 " -- Prettier
 Plug 'mhartington/formatter.nvim'
 " -- Jsx
@@ -299,6 +299,16 @@ require('formatter').setup({
               }
             end
         },
+        go = {
+            -- gofmt
+            function()
+                return {
+                    exe = "gofmt",
+                    args = { vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+                }
+            end
+        },
         rust = {
           -- Rustfmt
           function()
@@ -312,10 +322,17 @@ require('formatter').setup({
     }
 })
 
+require('nvim-tree').setup({
+  disable_netrw   = false,
+  hijack_netrw    = false,
+  auto_close      = true,
+  lsp_diagnostics = true,
+})
+
 vim.api.nvim_exec([[
 augroup FormatAutogroup
   autocmd!
-  autocmd BufWritePost *.js,*.vue,*.rs FormatWrite
+  autocmd BufWritePost *.js,*.vue,*.rs,*.go FormatWrite
 augroup END
 ]], true)
 EOF
