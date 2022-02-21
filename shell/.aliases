@@ -8,8 +8,8 @@ alias cdg='cd ~/go/src/github.com/aubinlrx/'
 alias 'ryarn'='rm -rf ./node_modules && yarn install'
 alias rdb='bundle exec rake db:drop && bundle exec rake db:setup && bundle exec rake db:migrate'
 alias rspec="bundle exec spring rspec"
-alias rspec_staged="git diff --name-only --cached | rg '.*\.rb' | sed 's/app\/\(.*\)\.rb/spec\/\1\_spec\.rb/g' | xargs ls -d 2>/dev/null | xargs ./bin/rspec"
-alias rspec_diff="git diff --name-only | rg '.*.rb' | sed 's/app\/\(.*\)\.rb/spec\/\1\_spec\.rb/g' | xargs ls -d 2>/dev/null | xargs ./bin/rspec"
+alias rspec_staged="git diff --name-only --cached | rg '.*\.rb' | sed 's/app\/\(.*\)\.rb/spec\/\1\_spec\.rb/g' | rg -v spec/features | xargs ls -d 2>/dev/null | xargs ./bin/rspec"
+alias rspec_diff="git diff --name-only | rg '.*.rb' | sed 's/app\/\(.*\)\.rb/spec\/\1\_spec\.rb/g' | rg -v spec/features | xargs ls -d 2>/dev/null | xargs ./bin/rspec"
 alias fspec="SEED=disabled DRIVER=chrome RSPEC_RETRY_RETRY_COUNT=0 ./bin/rspec"
 alias cat='bat'
 alias ls='exa'
@@ -20,6 +20,7 @@ alias stt='sublime'
 alias sskello='tmuxinator skello'
 alias jira_branch='open https://skello.atlassian.net/projects/DEV/issues/$(git branch | grep \* | cut -d '\'' '\'' -f2)'
 alias db="./bin/db"
+alias wops="./bin/wops"
 alias alacritty="/Applications/Alacritty.app/Contents/MacOS/alacritty"
 
 # postgresql

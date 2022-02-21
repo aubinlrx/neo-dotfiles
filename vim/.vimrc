@@ -34,12 +34,15 @@ Plug 'Yggdroot/indentLine'
 " Manage surround char
 Plug 'tpope/vim-surround'
 " Run async command
-Plug 'tpope/vim-dispatch'
+Plug 'skywind3000/asyncrun.vim'
 " Synthax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 " " -- Vue
 Plug 'posva/vim-vue'
+" -- Svelte
+Plug 'evanleck/vim-svelte', {'branch': 'main'}
+Plug 'codechips/coc-svelte', {'do': 'npm install'}
 " -- Rust
 Plug 'rust-lang/rust.vim'
 " -- Coffee
@@ -146,11 +149,14 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 autocmd Filetype vue setlocal ts=2 sts=2 sw=2
 autocmd Filetype vuejs setlocal ts=2 sts=2 sw=2
+autocmd Filetype svelte setlocal ts=2 sts=2 sw=2
 autocmd Filetype css setlocal ts=2 sts=2 sw=2
 autocmd Filetype scss setlocal ts=2 sts=2 sw=2
 autocmd Filetype sh setlocal ts=2 sts=2 sw=2
 autocmd Filetype coffee setlocal ts=2 sts=2 sw=2
 autocmd Filetype ejs setlocal ts=2 sts=2 sw=2
+autocmd Filetype jst setlocal ts=2 sts=2 sw=2
+autocmd Filetype jbuilder setlocal ts=2 sts=2 sw=2
 
 " Set colorcolumn for column beyond 80
 set colorcolumn=81
@@ -289,6 +295,16 @@ require('formatter').setup({
                 }
             end
         },
+        svelte = {
+            -- prettier
+            function()
+                return {
+                    exe = "prettier",
+                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+                }
+            end
+        },
         javascript = {
             -- prettier
             function()
@@ -326,13 +342,12 @@ require('nvim-tree').setup({
   disable_netrw   = false,
   hijack_netrw    = false,
   auto_close      = true,
-  lsp_diagnostics = true,
 })
 
 vim.api.nvim_exec([[
 augroup FormatAutogroup
   autocmd!
-  autocmd BufWritePost *.js,*.vue,*.rs,*.go FormatWrite
+  autocmd BufWritePost *.js,*.vue,*.svelte,*.rs,*.go FormatWrite
 augroup END
 ]], true)
 EOF
@@ -659,7 +674,7 @@ function! Rspec()
     if l:spec == ''
         echom "Can't determine spec for " . expand('%')
     else
-       exec ':Start! /Applications/Alacritty.app/Contents/MacOS/alacritty --hold --working-directory $(pwd) -e bundle exec spring rspec ' . l:spec
+       exec ':AsyncRun! /Applications/Alacritty.app/Contents/MacOS/alacritty --hold --working-directory $(pwd) -e bundle exec spring rspec ' . l:spec
     endif
 endfunction
 command! -nargs=0 Rspec call Rspec()
@@ -678,7 +693,7 @@ function! Lspec()
     if l:spec == ''
         echom "Can't determine spec for " . expand('%')
     else
-       exec ':Start! /Applications/Alacritty.app/Contents/MacOS/alacritty --hold --working-directory $(pwd) -e bundle exec spring rspec ' . l:spec . ':' . l:line
+       exec ':AsyncRun! /Applications/Alacritty.app/Contents/MacOS/alacritty --hold --working-directory $(pwd) -e bundle exec spring rspec ' . l:spec . ':' . l:line
     endif
 endfunction
 command! -nargs=0 Lspec call Lspec()
@@ -696,7 +711,7 @@ function! Fspec()
         echom "Can't determine spec for " . expand('%')
         return
     elseif l:spec =~? '^spec\/features\/.*'
-        exec ':Dispatch SEED=disabled DRIVER=chrome RSPEC_RETRY_RETRY_COUNT=0 bundlex exec spring rspec ' . l:spec
+        exec ':AsyncRun! SEED=disabled DRIVER=chrome RSPEC_RETRY_RETRY_COUNT=0 bundlex exec spring rspec ' . l:spec
     else
         echom l:spec . ' is not a features spec'
     endif
