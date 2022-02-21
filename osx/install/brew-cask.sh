@@ -23,6 +23,9 @@ apps=(
   heroku
   sequel-pro
   font-hack-nerd-font
+  font-jetbrains-mono-nerd-font
+  alfred
+  flameshot
 )
 
 echo "Installing Homebrew app..."

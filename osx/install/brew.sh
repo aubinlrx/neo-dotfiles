@@ -33,6 +33,8 @@ packages=(
   tree
   ripgrep
   mysql@5.7
+  sqlite
+  redis
   wget
   hub
   unrar
@@ -48,6 +50,8 @@ packages=(
   yarn
   exa
   sd
+  gh
+  terraform
 )
 
 echo "Installing brew packages..."
