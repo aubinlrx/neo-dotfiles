@@ -16,7 +16,6 @@ apps=(
   spotify
   slite
   telegram-desktop
-  visual-studio-code
   iterm2
   firefox
   bitwarden

@@ -23,4 +23,4 @@ packages=(
     github.com/mailgun/godebug              # cross-platform debugger
 )
 
-go get -u -v "${packages[@]}"  
+go get -u -v "${packages[@]}"

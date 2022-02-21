@@ -22,7 +22,6 @@ brew doctor
 brew tap Homebrew/tap
 
 packages=(
-  ag
   bash
   bash-completion
   brew-cask-completion
@@ -34,12 +33,11 @@ packages=(
   tree
   ripgrep
   mysql@5.7
-  postgresql
   wget
   hub
   unrar
   jq
-  vim
+  neovim
   markdown
   openssh
   openssl
@@ -48,7 +46,8 @@ packages=(
   gnu-sed
   gnu-indent
   yarn
-  vifm
+  exa
+  sd
 )
 
 echo "Installing brew packages..."

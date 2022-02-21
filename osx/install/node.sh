@@ -10,6 +10,6 @@ source $(brew --prefix nvm)/nvm.sh
 
 # Install lts version of Node.js
 echo "Install Node.js lts with NVM..."
-nvm install --lts 
+nvm install --lts
 nvm use 'lts/*'
 nvm alias default 'lts/*'
