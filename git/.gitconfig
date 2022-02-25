@@ -1,10 +1,8 @@
-
-[user]
-	name = Aubin Lorieux
-	email = aubin.lorieux@gmail.com
-
 [includeIf "gitdir:~/git/winddle/"]
-    path = ~/git/winddle/.gitconfig
+    path = ~/.gitconfig-winddle
+
+[includeIf "gitdir:~/git/aubinlrx/"]
+    path = ~/.gitconfig-perso
 
 [status]
 	# also show individual files in untracked directories

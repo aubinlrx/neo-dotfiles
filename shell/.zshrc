@@ -13,18 +13,12 @@ plugins=(git ssh-agent history-substring-search zsh-syntax-highlighting)
 
 # Prevent Homebrew from reporting - https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Analytics.md
 export HOMEBREW_NO_ANALYTICS=1
+export BREW_PREFIX="$(brew --prefix)"
 export EDITOR="nvim"
 export TERM="xterm-256color"
 
 # Actually load Oh-My-Zsh
 source "${ZSH}/oh-my-zsh.sh"
-
-# Load rbenv if installed
-# export PATH="${HOME}/.rbenv/bin:${HOME}/.rbenv/shims:${PATH}"
-# type -a rbenv > /dev/null && eval "$(rbenv init -)"
-
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Load kiex if installed
 test -s "${HOME}/.kiex/scripts/kiex" && source "${HOME}/.kiex/scripts/kiex"
@@ -35,18 +29,23 @@ export PATH=$PATH:/usr/local/opt/node@10/bin
 export PATH=$PATH:/usr/local/opt/node@8/bin
 export PATH=$PATH:/usr/local/sbin
 
-# [OSX] add openssl into path
-export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+# libffi - compile ruby
+export LDFLAGS="-L$BREW_PREFIX/opt/libffi/lib"
+export CPPFLAGS="-I$BREW_PREFIX/opt/libffi/include"
+export PKG_CONFIG_PATH="$BREW_PREFIX/opt/libffi/lib/pkgconfig"
 
-# [OSX] add Qt binary to PATH
-# https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit#macos-high-sierra-1013-macos-sierra-1012-el-capitan-1011-and-yosemite-1010
-# export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+# openssl
+export PATH="$BREW_PREFIX/opt/openssl@1.1/bin:$PATH"
+export LDFLAGS="-L$BREW_PREFIX/opt/openssl@1.1/lib"
+export CPPFLAGS="-I$BREW_PREFIX/opt/openssl@1.1/include"
+export PKG_CONFIG_PATH="$BREW_PREFIX/opt/openssl@1.1/lib/pkgconfig"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$BREW_PREFIX/opt/openssl@1.1"
 
 # [OSX] https://blog.francium.tech/installing-rmagick-on-osx-high-sierra-7ea71f57390d
-export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+export PATH="$BREW_PREFIX/opt/imagemagick@6/bin:$PATH"
 
 # [OSX] 5.7 from brew
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+export PATH="$BREW_PREFIX/opt/mysql@5.7/bin:$PATH"
 
 # add golang into the PATH
 export GOPATH=$HOME/go
@@ -55,14 +54,14 @@ export PATH=$PATH:/usr/local/go/bin
 
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && . "$(brew --prefix)/opt/nvm/nvm.sh" # This loads nvm
-[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && . "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+[ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && . "$BREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
+[ -s "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && . "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 # Store your own aliases in the ~/.aliases file and load the here.
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
 # Tmux config
-set -g default-terminal "screen-256color"
+# set -g default-terminal "screen-256color"
 
 # Encoding stuff for the terminal
 export LANG=en_US.UTF-8
@@ -79,8 +78,14 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.rvm/gems/ruby-2.6.2@winddle-rails5/bin:$PATH"
 export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 
+eval "$(rbenv init - zsh)"
+
 # Add pip to PATH for Ansible
 export PATH="$PATH:$HOME/Library/Python/2.7/bin"
+
+# Fix error when an NPM_TOKEN is needed in a project
+# https://stackoverflow.com/questions/52015748/npm-failed-to-replace-env-in-config-npm-token
+export NPM_TOKEN="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"
 
 # Winddle specific env variable
 WINDDLE_APP_PATH="$HOME/git/winddle/winddle"

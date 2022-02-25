@@ -212,7 +212,7 @@ autocmd FileType javascript.jsx JsPreTmpl
 set noswapfile
 
 " Use zsh
-set shell=/usr/local/bin/zsh
+set shell=/opt/homebrew/bin/zsh
 
 " Fzf
 let g:fzf_files_options = '--keep-right'
