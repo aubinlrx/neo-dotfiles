@@ -60,6 +60,9 @@ export NVM_DIR="$HOME/.nvm"
 # Store your own aliases in the ~/.aliases file and load the here.
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
+# Store your private tokens in the ~/.token file and load them here
+[[ -f "$HOME/.private_tokens" ]] && source "$HOME/.private_tokens"
+
 # Tmux config
 # set -g default-terminal "screen-256color"
 
@@ -82,10 +85,6 @@ eval "$(rbenv init - zsh)"
 
 # Add pip to PATH for Ansible
 export PATH="$PATH:$HOME/Library/Python/2.7/bin"
-
-# Fix error when an NPM_TOKEN is needed in a project
-# https://stackoverflow.com/questions/52015748/npm-failed-to-replace-env-in-config-npm-token
-export NPM_TOKEN="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"
 
 # Winddle specific env variable
 WINDDLE_APP_PATH="$HOME/git/winddle/winddle"
