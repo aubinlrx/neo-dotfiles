@@ -6,3 +6,8 @@ Host aubinlrx.github.com
   HostName github.com
   User git
   IdentityFile ~/.ssh/aubinlrx_rsa
+
+Host klauhait.github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/klauhait_rsa

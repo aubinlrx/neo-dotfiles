@@ -4,6 +4,9 @@
 [includeIf "gitdir:~/git/aubinlrx/"]
     path = ~/.gitconfig-perso
 
+[includeIf "gitdir:~/git/klauhait/"]
+    path = ~/.gitconfig-klauhait
+
 [status]
 	# also show individual files in untracked directories
 	showUntrackedFiles = all
@@ -24,9 +27,19 @@
 
 [core]
 	excludesfile = ~/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta
 	autocrlf = input
 	ignorecase = false
+
+[delta]
+    diffFilter = delta --color-only
+
+[merge]
+    conflictstyle = diff3
+
+
+[diff]
+    colorMoved = default
 
 [alias]
     # list contributors with number of commits

@@ -3,10 +3,10 @@ ZSH=$HOME/.oh-my-zsh
 # You can change the theme with another one:
 #   https://github.com/robbyrussell/oh-my-zsh/wiki/themes
 ZSH_THEME="robbyrussell"
-BAT_THEME="tokyo-night"
+BAT_THEME="Nord"
 
 # Load zsh identities with ssh-agent plugins
-zstyle ':omz:plugins:ssh-agent' identities 'aubinlrx_rsa' 'id_rsa' 'winddle_infra.pem' 'winddle_internal.pem' 'winddle_web_ubuntu.pem'
+zstyle ':omz:plugins:ssh-agent' identities 'klauhait_rsa' 'aubinlrx_rsa' 'id_rsa' 'winddle_infra.pem' 'winddle_internal.pem' 'winddle_web_ubuntu.pem'
 
 # Useful plugins for Rails development with Sublime Text
 plugins=(git ssh-agent history-substring-search zsh-syntax-highlighting)
@@ -41,9 +41,6 @@ export CPPFLAGS="-I$BREW_PREFIX/opt/openssl@1.1/include"
 export PKG_CONFIG_PATH="$BREW_PREFIX/opt/openssl@1.1/lib/pkgconfig"
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$BREW_PREFIX/opt/openssl@1.1"
 
-# [OSX] https://blog.francium.tech/installing-rmagick-on-osx-high-sierra-7ea71f57390d
-export PATH="$BREW_PREFIX/opt/imagemagick@6/bin:$PATH"
-
 # [OSX] 5.7 from brew
 export PATH="$BREW_PREFIX/opt/mysql@5.7/bin:$PATH"
 
@@ -64,7 +61,7 @@ export NVM_DIR="$HOME/.nvm"
 [[ -f "$HOME/.private_tokens" ]] && source "$HOME/.private_tokens"
 
 # Tmux config
-# set -g default-terminal "screen-256color"
+set -g default-terminal "screen-256color"
 
 # Encoding stuff for the terminal
 export LANG=en_US.UTF-8
@@ -112,3 +109,9 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
   eval `ssh-agent -s`
 fi
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/aubinlrx/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/aubinlrx/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/aubinlrx/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/aubinlrx/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

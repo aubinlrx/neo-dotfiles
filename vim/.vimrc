@@ -9,6 +9,9 @@ endif
 
 " Run :PlugInstall to install new Plugins
 call plug#begin()
+" Telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 " Status bar
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -60,6 +63,7 @@ Plug 'Quramy/vim-js-pretty-template'
 Plug 'isRuslan/vim-es6'
 " -- Markdown
 Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 " Comppletion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
@@ -118,6 +122,7 @@ set omnifunc=syntaxcomplete#Complete
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_json_conceal = 0
 
 " Update time
 set updatetime=300
@@ -142,6 +147,9 @@ set shiftwidth=4
 set expandtab
 set backspace=indent,eol,start
 
+" set jbuilder as ruby
+au BufRead,BufNewFile *.json.jbuilder set filetype=ruby
+
 " 2 spaces for ruby/web
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
 autocmd Filetype eruby setlocal ts=2 sts=2 sw=2
@@ -156,7 +164,7 @@ autocmd Filetype sh setlocal ts=2 sts=2 sw=2
 autocmd Filetype coffee setlocal ts=2 sts=2 sw=2
 autocmd Filetype ejs setlocal ts=2 sts=2 sw=2
 autocmd Filetype jst setlocal ts=2 sts=2 sw=2
-autocmd Filetype jbuilder setlocal ts=2 sts=2 sw=2
+autocmd Filetype json.jbuilder setlocal ts=2 sts=2 sw=2
 
 " Set colorcolumn for column beyond 80
 set colorcolumn=81
@@ -341,7 +349,6 @@ require('formatter').setup({
 require('nvim-tree').setup({
   disable_netrw   = false,
   hijack_netrw    = false,
-  auto_close      = true,
 })
 
 vim.api.nvim_exec([[
@@ -491,6 +498,8 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
@@ -498,6 +507,22 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
