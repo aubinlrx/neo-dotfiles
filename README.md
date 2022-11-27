@@ -8,7 +8,7 @@
 ├── osx/                                  # mac os preferences, installers and apps configs
 ├── shell/                                # bash config (prompt, aliases, functions, exports etc.)
 ├── ubuntu/                               # ubuntu preferences, installers and apps configs
-├── vim/                                  # vim config and plugins
+├── nvim/                                 # neovim config and plugins
 ├── .gitignore
 └── README.md
 ```
@@ -33,4 +33,3 @@ git clone https://github.com/aubinlrx/neo-dotfiles.git
 cd neo-dotfiles/ubuntu
 . ./setup.sh
 ```
-

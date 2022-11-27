@@ -12,8 +12,8 @@ source install/ruby.sh
 source install/node.sh
 source install/rust.sh
 
-# Setup vim
-source install/vim.sh
+# Setup nvim
+source install/nvim.sh
 
 # Symlink everything
 source symlink.sh

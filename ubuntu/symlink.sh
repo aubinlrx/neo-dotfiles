@@ -12,9 +12,9 @@ source ${HOME}/.zshrc
 ln -fs ${DOTFILES}/git/.gitconfig ${HOME}/.gitconfig
 ln -fs ${DOTFILES}/git/.gitignore ${HOME}/.gitignore
 
-# vim
-ln -fs ${DOTFILES}/vim/.vimrc.plug ${HOME}/.vimrc.plug
-ln -fs ${DOTFILES}/vim/.vimrc ${HOME}/.vimrc
+# nvim
+ln -fs ${DOTFILES}/nvim/init.lua ${HOME}/.config/nvim/init.lua
+ln -fs ${DOTFILES}/nvim/lua ${HOME}/.config/nvim/lua
 
 # i3
 ln -fs ${DOTFILES}/i3/config ${HOME}/.i3/config

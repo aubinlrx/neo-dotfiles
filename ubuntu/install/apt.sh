@@ -29,7 +29,7 @@ packages=(
   unrar
   gnupg2
   fonts-powerline
-  vim
+  neovim
 )
 
 echo "installing packages..."

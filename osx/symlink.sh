@@ -15,6 +15,7 @@ ln -fs ${DOTFILES}/shell/.alacritty.yml ${HOME}/.alacritty.yml
 ln -fs ${DOTFILES}/git/.gitconfig ${HOME}/.gitconfig
 ln -fs ${DOTFILES}/git/.gitconfig-winddle ${HOME}/.gitconfig-winddle
 ln -fs ${DOTFILES}/git/.gitconfig-perso ${HOME}/.gitconfig-perso
+ln -fs ${DOTFILES}/git/.gitconfig-klauhait ${HOME}/.gitconfig-klauhait
 ln -fs ${DOTFILES}/git/.gitignore ${HOME}/.gitignore
 
 # dircolors
@@ -28,3 +29,7 @@ ln -fs ${DOTFILES}/ssh/config ${HOME}/.ssh/config
 
 # irb
 ln -fs ${DOTFILES}/shell/.irbrc ${HOME}/.irbrc
+
+# nvim
+ln -fs ${DOTFILES}/nvim/init.lua ${HOME}/.config/nvim/init.lua
+ln -fs ${DOTFILES}/nvim/lua ${HOME}/.config/nvim/lua
