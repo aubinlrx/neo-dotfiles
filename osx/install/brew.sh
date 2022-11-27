@@ -30,7 +30,7 @@ packages=(
   diff-so-fancy
   tree
   ripgrep
-  mysql@5.7
+  mysql
   sqlite
   redis
   wget
