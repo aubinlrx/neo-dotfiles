@@ -40,3 +40,5 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 opt.iskeyword:append("-") -- consider string-string as whole word
 
+-- no swap file
+vim.api.nvim_command("set noswapfile")
