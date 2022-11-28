@@ -28,7 +28,6 @@ mason_lspconfig.setup({
 		"sumneko_lua",
 		"emmet_ls",
 		"solargraph",
-		"vuels",
 		"gopls",
 	},
 	-- auto-install configured servers (with lspconfig)
