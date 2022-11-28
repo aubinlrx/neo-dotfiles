@@ -114,9 +114,10 @@ lspconfig["sumneko_lua"].setup({
 lspconfig["solargraph"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
-	settings = {
-		Solargraph = {
-			root_dir = require("lspconfig").util.root_pattern("Gemfile", ".git")(fname) or vim.fn.getcwd(),
-		},
-	},
+})
+
+-- configure go server
+lspconfig["gopls"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
 })
