@@ -77,6 +77,7 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.rvm/gems/ruby-2.6.2@winddle-rails5/bin:$PATH"
 export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
+export PATH="$HOME/.gem/ruby/3.1.0/bin:$PATH"
 
 eval "$(rbenv init - zsh)"
 
