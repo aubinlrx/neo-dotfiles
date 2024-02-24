@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+filename, line, col = ARGV
+
+home_directory = Dir.home
+
+regex = Regexp.new("^(#{Regexp.escape(home_directory)}\/git\/[a-zA-Z_-]+\/[a-zA-Z_-]+\/).*")
+
+match = regex.match(filename)
+filename = filename.gsub(match[1], '')
+
+`echo "#{[filename, line, col].compact.join(':')}" | pbcopy`
